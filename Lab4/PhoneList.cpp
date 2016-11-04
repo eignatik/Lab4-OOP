@@ -73,15 +73,16 @@ void PhoneList::printPhoneBook() {
 }
 
 void PhoneList::setLastItemAsCurrent() {
-	current = phoneBook.end;
+	current = &phoneBook.back();
 }
 
 Subscriber PhoneList::getCurrentItem() {
-	return (*current);
+	return *current;
 }
 
 void PhoneList::update(Subscriber subscriber) {
-	current = &subscriber;
+	(*current).setName(subscriber.getName());
+	(*current).setPhone(subscriber.getPhone());
 }
 
 
