@@ -73,7 +73,7 @@ void PhoneList::printPhoneBook() {
 }
 
 void PhoneList::setLastItemAsCurrent() {
-	current = &phoneBook.back();
+	current = --phoneBook.end();
 }
 
 Subscriber PhoneList::getCurrentItem() {
@@ -81,8 +81,76 @@ Subscriber PhoneList::getCurrentItem() {
 }
 
 void PhoneList::update(Subscriber subscriber) {
-	(*current).setName(subscriber.getName());
-	(*current).setPhone(subscriber.getPhone());
+	(*current) = subscriber;
 }
 
+void PhoneList::nextItem() {
+	if (current != --phoneBook.end()) {
+		*(current++);
+		std::cout << "Move to next item:" << endl;
+	} else {
+		std::cout << "ERROR: Current value is the last element in the list" << endl;
+	}
+	printCurrent();
+}
+
+void PhoneList::prevItem() {
+	if (current != phoneBook.begin()) {
+		*(current--);
+		std::cout << "Move to previous item:" << endl;
+	} else {
+		std:cout << "ERROR: Current value is the first element in the list" << endl;
+	}
+	printCurrent();
+}
+
+void PhoneList::nextItem(int n) {
+	for (int i = 0; i < n; i++) {
+		if (current == --phoneBook.end()) {
+			cout << "WARNING: " << n << " value is stayed out of this list bound." << endl;
+			break;
+		}
+		current++;
+	}
+	printCurrent();
+}
+
+void PhoneList::prevItem(int n) {
+	for (int i = 0; i < n; i++) {
+		if (current == phoneBook.begin()) {
+			cout << "WARNING: " << n << " value is stayed out of this list bound." << endl;
+			break;
+		}
+		current--;
+	}
+	printCurrent();
+}
+
+void PhoneList::printCurrent() {
+	std::cout << " >     Current item is " << (*current).getName() << " " << (*current).getPhone() << endl;
+}
+
+void PhoneList::insertNext(Subscriber subscriber) {
+	*(current++);
+	update(subscriber);
+	printCurrent();
+}
+
+void PhoneList::insertPrev(Subscriber subscriber) {
+	if (current == phoneBook.begin()) {
+		std::cout << "You can't add element before first record" << endl;
+		return;
+	} else {
+		*(current--);
+		update(subscriber);
+		printCurrent();
+	}
+}
+
+void PhoneList::insert(Subscriber subscriber) {
+	phoneBook.insert(phoneBook.end(), subscriber);
+	current = --phoneBook.end();
+	cout << "The record have been added" << endl;
+	printCurrent();
+}
 

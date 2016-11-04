@@ -6,12 +6,13 @@ class PhoneList {
 private:
 	typedef std::list<Subscriber> PhoneBook;
 	PhoneBook phoneBook;
-	Subscriber* current;
+	PhoneBook::iterator current;
 
 	std::string getRandomName();
 	std::string getRandomNumber();
 	void fillBook();
 	void setLastItemAsCurrent();
+	void printCurrent();
 
 public:
 	PhoneList();
